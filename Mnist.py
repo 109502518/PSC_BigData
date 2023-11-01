@@ -128,18 +128,13 @@ for epoch in range(100):
 
 
 all_num = 30000
+train_num = 10000
 X = train_dataset.data[:all_num]/255
 X = X.view(-1, 28 * 28)
 X = autoencoder(X, stop=True).detach().numpy()
-y = train_dataset.targets[:all_num].numpy()
-print(X.shape)
-print(y.shape)
-
-train_num = 10000
 X_train = X[:train_num]
-y_test = y[train_num:all_num]
+y_true = train_dataset.targets[:all_num].numpy()
 print(X_train.shape)
-print(y_test.shape)
 
 
 train_start = t.time()
@@ -161,7 +156,7 @@ for epoch in range(200):
         loss.backward()
         optimizer.step()
         running_loss += loss.item()
-        Loss = running_loss/len(train_loader)
+        Loss = running_loss/len(dataloader)
     print(f"Epoch {epoch+1}, Loss: {Loss:.4f}")
 
 train_end = t.time()
@@ -189,16 +184,16 @@ PSC_end = t.time()
 PSC_end_memory = psutil.Process().memory_info().rss
 
 
-SC_acc = cluster_acc(y_test, cluster3_index)
-PSC_acc = cluster_acc(y_test, cluster4_index)
+SC_acc = cluster_acc(y_true, cluster3_index)
+PSC_acc = cluster_acc(y_true, cluster4_index)
 sim = cluster_acc(cluster3_index, cluster4_index)
 PSC_memory = (PSC_end_memory - PSC_start_memory) / (1024*1024)
 
 
-sc_ari_score = adjusted_rand_score(y_test, cluster3_index)
-sc_ami_score = adjusted_mutual_info_score(y_test, cluster3_index)
-psc_ari_score = adjusted_rand_score(y_test, cluster4_index)
-psc_ami_score = adjusted_mutual_info_score(y_test, cluster4_index)
+sc_ari_score = adjusted_rand_score(y_true, cluster3_index)
+sc_ami_score = adjusted_mutual_info_score(y_true, cluster3_index)
+psc_ari_score = adjusted_rand_score(y_true, cluster4_index)
+psc_ami_score = adjusted_mutual_info_score(y_true, cluster4_index)
 sim_ari_score = adjusted_rand_score(cluster3_index, cluster4_index)
 sim_ami_score = adjusted_mutual_info_score(cluster3_index, cluster4_index)
 
