@@ -87,7 +87,7 @@ autoencoder = Autoencoder()
 # autoencoder = autoencoder.to(device)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(autoencoder.parameters())
-for epoch in range(30):
+for epoch in range(35):
     running_loss = 0.0
     for x,y in train_loader:
         # x = x.to(device)
