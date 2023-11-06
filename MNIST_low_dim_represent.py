@@ -1,41 +1,37 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
-from scipy.spatial.distance import cdist
-from sklearn.cluster import KMeans
 from scipy.optimize import linear_sum_assignment
+from sklearn.manifold import SpectralEmbedding
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 
 
-
-class Autoencoder(nn.Module):
+class AE(nn.Module):
     def __init__(self):
-        super(Autoencoder, self).__init__()
+        super(AE, self).__init__()
         self.encoder = nn.Sequential(
-            nn.Linear(28 * 28, 1024),
+            nn.Linear(784, 1568),
             nn.ReLU(),
-            nn.Linear(1024, 512),
+            nn.Linear(1568, 784),
             nn.ReLU(),
-            nn.Linear(512, 256),
+            nn.Linear(784, 392),
             nn.ReLU(),
-            nn.Linear(256, 32)
+            nn.Linear(392, 49),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(49, 392),
+            nn.ReLU(),
+            nn.Linear(392, 784),
+            nn.ReLU(),
+            nn.Linear(784, 1568),
+            nn.ReLU(),
+            nn.Linear(1568, 784),
         )
         
-        self.decoder = nn.Sequential(
-            nn.Linear(32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 512),
-            nn.ReLU(),
-            nn.Linear(512, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 28 * 28),
-        )
-
     def forward(self, x, stop=False):
         x = self.encoder(x)
         if stop:
@@ -44,48 +40,22 @@ class Autoencoder(nn.Module):
         return x
 
 
-
 class Dimen_Reduct_Model(nn.Module):
     def __init__(self):
         super(Dimen_Reduct_Model, self).__init__()
         self.classifier = nn.Sequential(
-            nn.Linear(32, 128),
-            nn.ReLU(inplace=False),
-            nn.Linear(128, 256),
-            nn.ReLU(inplace=False),
-            nn.Linear(256, 128),
-            nn.ReLU(inplace=False),
-            nn.Linear(128, 10)
+            nn.Linear(49, 196),
+            nn.ReLU(),
+            nn.Linear(196, 392),
+            nn.ReLU(),
+            nn.Linear(392, 196),
+            nn.ReLU(),
+            nn.Linear(196, 10),
         )
         
     def forward(self, x):
         x = self.classifier(x)
         return x
-
-
-
-def SC_lower_vector(X):
-    #Similarity Matrix
-    dist = cdist(X,X,"euclidean")
-    n_neigh=10
-    S=np.zeros(dist.shape)
-    neigh_index=np.argsort(dist,axis=1)[:,1:n_neigh+1]
-    sigma=1
-    for i in range(X.shape[0]):
-        S[i,neigh_index[i]]=np.exp(-dist[i,neigh_index[i]]/(2*sigma**2))
-    S=np.maximum(S,S.T)
-    p=10
-    #Normalized spectral clustering according to Ng, Jordan, and Weiss
-    D=np.diag(np.sum(S,axis=1))
-    L=D-S
-    D_tmp=np.linalg.inv(D)**(1/2)
-    L_sym=np.dot(np.dot(D_tmp,L),D_tmp)
-    A,B=np.linalg.eig(L_sym)
-    idx=np.argsort(A)[:p]
-    U=B[:,idx]
-    U=U/((np.sum(U**2,axis=1)**0.5)[:,None])
-    return U
-
 
 
 def cluster_acc(y_true, y_pred):
@@ -99,15 +69,14 @@ def cluster_acc(y_true, y_pred):
     return w[row_ind, col_ind].sum() * 1.0 / y_pred.size
 
 
-
 def avg_row_rmse(matrix1, matrix2):
     assert matrix1.shape == matrix2.shape
+    num_rows, num_cols = matrix1.shape
     rmse_list = []
-    for row1, row2 in zip(matrix1, matrix2):
-        rmse = np.sqrt(np.mean((row1 - row2)**2))
+    for i in range(num_rows):
+        rmse = np.sqrt(mean_squared_error(matrix1[i], matrix2[i]))
         rmse_list.append(rmse)
     return np.mean(rmse_list)
-
 
 
 def avg_row_r2(matrix1, matrix2):
@@ -120,26 +89,25 @@ def avg_row_r2(matrix1, matrix2):
 
 
 
-# MNIST 60000 10000 1x28x28
+# MNIST
 train_dataset = datasets.MNIST(root='data', train=True, transform=ToTensor(), download=False)
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_dataset = datasets.MNIST(root='data', train=False, transform=ToTensor(), download=False)
-test_loader = DataLoader(test_dataset, batch_size=20, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=40, shuffle=False)
 
 
-autoencoder = Autoencoder()
-
+ae = AE()
 # device = torch.device("mps")
-# autoencoder = autoencoder.to(device)
+# ae = ae.to(device)
 criterion = nn.MSELoss()
-optimizer = optim.Adam(autoencoder.parameters(), lr=0.001)
-for epoch in range(100):
+optimizer = torch.optim.Adam(ae.parameters())
+for epoch in range(10):
     running_loss = 0.0
     for x,y in train_loader:
         # x = x.to(device)
         x = x.view(-1, 28 * 28)
         optimizer.zero_grad()
-        output = autoencoder(x)
+        output = ae(x)
         loss = criterion(output, x)
         loss.backward()
         optimizer.step()
@@ -152,14 +120,14 @@ train_num = 10000
 test_num = 2000
 X_train = train_dataset.data[:train_num]/255
 X_train = X_train.view(-1, 28 * 28)
-X_train = autoencoder(X_train, stop=True).detach().numpy()
+X_train = ae(X_train, stop=True).detach().numpy()
 y_train = train_dataset.targets[:train_num].numpy()
 print(X_train.shape)
 print(y_train.shape)
 
 X_test = test_dataset.data[:test_num]/255
 X_test = X_test.view(-1, 28 * 28)
-X_test = autoencoder(X_test, stop=True).detach().numpy()
+X_test = ae(X_test, stop=True).detach().numpy()
 y_test = test_dataset.targets[:test_num].numpy()
 
 X = np.concatenate((X_train, X_test), axis=0)
@@ -167,19 +135,24 @@ y = np.concatenate((y_train, y_test), axis=0)
 print(X.shape)
 print(y.shape)
 
-    
-all_matrix = SC_lower_vector(X)
-train_matrix = all_matrix[:train_num]
+
+spectralembedding = SpectralEmbedding(n_components=10, affinity='nearest_neighbors', n_neighbors=10, random_state=0)
+
+
+all_embedding = spectralembedding.fit_transform(X)
+train_embedding = all_embedding[:train_num]
+
 
 x = torch.from_numpy(X_train).type(torch.FloatTensor)
-u = torch.from_numpy(train_matrix).type(torch.FloatTensor)
+u = torch.from_numpy(train_embedding).type(torch.FloatTensor)
 dataset = TensorDataset(x, u)
-dataloader = DataLoader(dataset, batch_size=40, shuffle=True)
+dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 
 dimen_reduct_model = Dimen_Reduct_Model()
-optimizer = torch.optim.Adam(dimen_reduct_model.parameters(), lr=0.001)
+
+optimizer = torch.optim.Adam(dimen_reduct_model.parameters())
 criterion = nn.MSELoss()
-for epoch in range(200):
+for epoch in range(100):
     running_loss = 0.0
     for x, y in dataloader:
         optimizer.zero_grad()
@@ -188,24 +161,17 @@ for epoch in range(200):
         loss.backward()
         optimizer.step()
         running_loss += loss.item()
-        Loss = running_loss/len(train_loader)
-    print(f"Epoch {epoch+1}, Loss: {Loss:.4f}")
-
-
-kmeans = KMeans(n_clusters=10, init='random', n_init='auto', algorithm='elkan')
+        Loss = running_loss/len(dataloader)
+    print(f"Epoch {epoch+1}, Loss: {Loss:.8f}")
 
 
 x = torch.from_numpy(X).type(torch.FloatTensor)
-predict_matrix = dimen_reduct_model(x).detach().numpy()
-all_matrix = all_matrix[train_num:train_num+test_num]
-predict_matrix = predict_matrix[train_num:train_num+test_num]
+predict_embedding = dimen_reduct_model(x).detach().numpy()
+predict_embedding = predict_embedding[train_num:train_num+test_num]
+test_embedding = all_embedding[train_num:train_num+test_num]
 
 
-rmse = np.sqrt(mean_squared_error(all_matrix, predict_matrix))
-avg_rmse = avg_row_rmse(all_matrix, predict_matrix)
-print(f"AVG RMSE = {avg_rmse:.3f}")
-print(f"RMSE = {rmse:.3f}")
-r2 = r2_score(all_matrix, predict_matrix)
-avg_r2 = avg_row_r2(all_matrix, predict_matrix)
+avg_rmse = avg_row_rmse(test_embedding, predict_embedding)
+print(f"AVG RMSE = {avg_rmse:.5f}")
+avg_r2 = avg_row_r2(test_embedding, predict_embedding)
 print(f"AVG R2 = {avg_r2:.3f}")
-print(f"R2 = {r2:.3f}")
