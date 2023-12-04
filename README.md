@@ -108,7 +108,7 @@ $ python3 PSC_Image_All.py --se 1
 $ python3 PSC_Image_Test.py
         --layer1 196
         --layer2 392
-- [ ] - [ ] - [ ]         --layer3 196
+        --layer3 196
 ```
 
 ## Citation
@@ -120,4 +120,4 @@ Please cite the paper if you find the work useful.
         author={Jo-Chun Chen and Hung-Hsuan Chen},
         booktitle={},
         year={2023}
-}
+    }
