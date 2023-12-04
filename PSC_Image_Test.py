@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torchvision.datasets import MNIST
 from torchvision.transforms import ToTensor
-from torch.utils.data import DataLoader
 import numpy as np
 from sklearn.cluster import KMeans
 from scipy.optimize import linear_sum_assignment
