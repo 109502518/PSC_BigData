@@ -87,7 +87,7 @@ $ python3 PSC_Image_Train.py
 ```
 - Example :
 ```
-$ python3 PSC_Tabular_Train.py
+$ python3 PSC_Image_Train.py
         --ratio 1/6
         --se 1
         --epoch 100
