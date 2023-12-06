@@ -1,10 +1,9 @@
 # Parametric Spectral Clustering
 
 ## Introduction
-This repo contains the implementation for the paper: Toward Efficient and Incremental Spectral Clustering via Parametric Spectral Clustering, published at IEEE International Conference on Big Data 2023.
+This repository hosts the implementation for the paper: Toward Efficient and Incremental Spectral Clustering via Parametric Spectral Clustering, published at IEEE International Conference on Big Data 2023.
 
-The motivation for this experiment lies in the computational complexity inherent to Spectral Clustering. Whenever new data is introduced, the entire process needs to be re-run, which can be time-consuming and resource-intensive, especially when dealing with large datasets. To address these challenges, we introduce a solution called Parametric Spectral Clustering, abbreviated as PSC. This approach focuses on learning the critical step in Spectral Clustering, overcoming the limitations associated with handling large datasets and supporting incremental clustering.
-
+The project addresses the significant computational challenges in traditional Spectral Clustering, particularly when integrating new data. Traditional methods require reprocessing the entire dataset, which is impractical for large-scale applications. Our innovative approach, Parametric Spectral Clustering (PSC), optimizes the essential steps of Spectral Clustering. This method significantly enhances efficiency, allowing for large dataset processing and facilitating incremental clustering without the need to reprocess entire datasets.
 
 ## Experiment Environment
 
@@ -114,10 +113,9 @@ $ python3 PSC_Image_Test.py
 ## Citation
 Please cite the paper if you find the work useful.
 
-    @inproceedings{
-        ,
-        title={},
+    @inproceedings{chen23toward,
+        title={Toward Efficient and Incremental Spectral Clustering via Parametric Spectral Clustering},
         author={Jo-Chun Chen and Hung-Hsuan Chen},
-        booktitle={},
+        booktitle={IEEE International Conference on Big Data},
         year={2023}
     }
