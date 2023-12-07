@@ -30,7 +30,7 @@ $ pip install -r requirements.txt
 #### PSC Model Training
 - Usage :
 ```
-$ python3 PSC_Tabular_Train.py
+python3 PSC_Tabular_Train.py
         --ratio < 0 ~ 1 (default:0.7)>
         --se <Choose the Spectral Embedding Affinity Matrix, 0 for rbf, 1 for nearest_neighbors (default:0)>
         --epoch <epoch (default:100)>
@@ -42,7 +42,7 @@ $ python3 PSC_Tabular_Train.py
 ```
 - Example :
 ```
-$ python3 PSC_Tabular_Train.py
+python3 PSC_Tabular_Train.py \
         --ratio 0.7 \
         --se 0 \
         --epoch 100 \
