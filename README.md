@@ -43,14 +43,14 @@ $ python3 PSC_Tabular_Train.py
 - Example :
 ```
 $ python3 PSC_Tabular_Train.py
-        --ratio 0.7
-        --se 0
-        --epoch 100
-        --lr 0.001
-        --batch 15
-        --layer1 32
-        --layer2 64
-        --layer3 32
+        --ratio 0.7 \
+        --se 0 \
+        --epoch 100 \
+        --lr 0.001 \
+        --batch 15 \
+        --layer1 32 \
+        --layer2 64 \
+        --layer3 32 \
 ``` 
 
 #### To compare the similarity, compute the Spectral Clustering with all data
