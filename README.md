@@ -74,7 +74,7 @@ python3 PSC_Tabular_Test.py \
 
 - Usage :
 ```
-$ python3 PSC_Image_Train.py
+python3 PSC_Image_Train.py
         --ratio < 0 ~ 1 (default:1/6)>
         --se <Choose the Spectral Embedding Affinity Matrix, 0 for rbf, 1 for nearest_neighbors (default:1)>
         --epoch <epoch (default:100)>
