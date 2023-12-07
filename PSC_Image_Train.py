@@ -87,7 +87,7 @@ if __name__ == '__main__':
     
     
     from torchvision.datasets import MNIST
-    train_dataset = MNIST(root='data', train=True, transform=ToTensor(), download=False)
+    train_dataset = MNIST(root='data', train=True, transform=ToTensor(), download=True)
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     
     
