@@ -30,7 +30,7 @@ pip install -r requirements.txt
 #### PSC Model Training
 - Usage :
 ```
-python3 PSC_Tabular_Train.py
+python PSC_Tabular_Train.py
         --ratio < 0 ~ 1 (default:0.7)>
         --se <Choose the Spectral Embedding Affinity Matrix, 0 for rbf, 1 for nearest_neighbors (default:0)>
         --epoch <epoch (default:100)>
@@ -42,7 +42,7 @@ python3 PSC_Tabular_Train.py
 ```
 - Example :
 ```
-python3 PSC_Tabular_Train.py \
+python PSC_Tabular_Train.py \
         --ratio 0.7 \
         --se 0 \
         --epoch 100 \
@@ -55,12 +55,12 @@ python3 PSC_Tabular_Train.py \
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-python3 PSC_Tabular_All.py --se 0
+python PSC_Tabular_All.py --se 0
 ```
 
 #### PSC Model Testing
 ```
-python3 PSC_Tabular_Test.py \
+python PSC_Tabular_Test.py \
         --layer1 32 \
         --layer2 64 \
         --layer3 32
@@ -74,7 +74,7 @@ python3 PSC_Tabular_Test.py \
 
 - Usage :
 ```
-python3 PSC_Image_Train.py
+python PSC_Image_Train.py
         --ratio < 0 ~ 1 (default:1/6)>
         --se <Choose the Spectral Embedding Affinity Matrix, 0 for rbf, 1 for nearest_neighbors (default:1)>
         --epoch <epoch (default:100)>
@@ -86,7 +86,7 @@ python3 PSC_Image_Train.py
 ```
 - Example :
 ```
-python3 PSC_Image_Train.py \
+python PSC_Image_Train.py \
         --ratio 1/6 \
         --se 1 \
         --epoch 100 \
@@ -99,12 +99,12 @@ python3 PSC_Image_Train.py \
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-python3 PSC_Image_All.py --se 1
+python PSC_Image_All.py --se 1
 ```
 
 #### PSC Model Testing
 ```
-python3 PSC_Image_Test.py \
+python PSC_Image_Test.py \
         --layer1 196 \
         --layer2 392 \
         --layer3 196
