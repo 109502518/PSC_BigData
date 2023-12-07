@@ -50,7 +50,7 @@ $ python3 PSC_Tabular_Train.py
         --batch 15 \
         --layer1 32 \
         --layer2 64 \
-        --layer3 32 \
+        --layer3 32
 ``` 
 
 #### To compare the similarity, compute the Spectral Clustering with all data
