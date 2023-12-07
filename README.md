@@ -10,7 +10,7 @@ The project addresses the significant computational challenges in traditional Sp
 - Python 3.10.8 in MacOS 14.1.1
 - Install the required packages by
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Experiment Datasets
@@ -55,14 +55,14 @@ python3 PSC_Tabular_Train.py \
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-$ python3 PSC_Tabular_All.py --se 0
+python3 PSC_Tabular_All.py --se 0
 ```
 
 #### PSC Model Testing
 ```
-$ python3 PSC_Tabular_Test.py
-        --layer1 32
-        --layer2 64
+python3 PSC_Tabular_Test.py \
+        --layer1 32 \
+        --layer2 64 \
         --layer3 32
 ```
 
@@ -86,27 +86,27 @@ $ python3 PSC_Image_Train.py
 ```
 - Example :
 ```
-$ python3 PSC_Image_Train.py
-        --ratio 1/6
-        --se 1
-        --epoch 100
-        --lr 0.001
-        --batch 64
-        --layer1 196
-        --layer2 392
+python3 PSC_Image_Train.py \
+        --ratio 1/6 \
+        --se 1 \
+        --epoch 100 \
+        --lr 0.001 \
+        --batch 64 \
+        --layer1 196 \
+        --layer2 392 \
         --layer3 196
 ``` 
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-$ python3 PSC_Image_All.py --se 1
+python3 PSC_Image_All.py --se 1
 ```
 
 #### PSC Model Testing
 ```
-$ python3 PSC_Image_Test.py
-        --layer1 196
-        --layer2 392
+python3 PSC_Image_Test.py \
+        --layer1 196 \
+        --layer2 392 \
         --layer3 196
 ```
 
