@@ -58,7 +58,7 @@ python PSC_Tabular_Train.py \
 python SC_Tabular_Train.py --se 0
 ```
 
-#### PSC Model Testing
+#### Compare the clustering quality and similarity of SC and PSC
 ```
 python SC_PSC_Tabular_Cmp.py \
         --layer1 32 \
@@ -102,7 +102,7 @@ python PSC_Image_Train.py \
 python SC_Image_Train.py --se 1
 ```
 
-#### PSC Model Testing
+#### Compare the clustering quality and similarity of SC and PSC
 ```
 python SC_PSC_Image_Cmp.py \
         --layer1 196 \
