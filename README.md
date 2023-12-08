@@ -55,12 +55,12 @@ python PSC_Tabular_Train.py \
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-python PSC_Tabular_All.py --se 0
+python SC_Tabular_Train.py --se 0
 ```
 
 #### PSC Model Testing
 ```
-python PSC_Tabular_Test.py \
+python SC_PSC_Tabular_Cmp.py \
         --layer1 32 \
         --layer2 64 \
         --layer3 32
@@ -99,12 +99,12 @@ python PSC_Image_Train.py \
 
 #### To compare the similarity, compute the Spectral Clustering with all data
 ```
-python PSC_Image_All.py --se 1
+python SC_Image_Train.py --se 1
 ```
 
 #### PSC Model Testing
 ```
-python PSC_Image_Test.py \
+python SC_PSC_Image_Cmp.py \
         --layer1 196 \
         --layer2 392 \
         --layer3 196
