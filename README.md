@@ -87,7 +87,7 @@ python PSC_Image_Train.py
 - Example :
 ```
 python PSC_Image_Train.py \
-        --ratio 1/6 \
+        --ratio 0.167 \
         --se 1 \
         --epoch 100 \
         --lr 0.001 \
