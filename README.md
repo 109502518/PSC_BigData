@@ -7,7 +7,7 @@ The project addresses the significant computational challenges in traditional Sp
 
 ## Experiment Environment
 
-- Python 3.10.8 in MacOS 14.1.1
+- Python 3.10.8 in macOS 14.1.1
 - Install the required packages by
 ```
 pip install -r requirements.txt
