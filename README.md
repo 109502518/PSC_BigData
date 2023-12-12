@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 ### Tabular Dataset, take Iris dataset for example
 
-#### PSC Model Training
+#### Parametric Spectral Clustering (PSC) model training
 - Usage :
 ```
 python PSC_Tabular_Train.py
@@ -53,12 +53,12 @@ python PSC_Tabular_Train.py \
         --layer3 32
 ``` 
 
-#### To compare the similarity, compute the Spectral Clustering with all data
+#### Spectral Clustering (SC) model training (baseline)
 ```
 python SC_Tabular_Train.py --se 0
 ```
 
-#### Compare the clustering quality and similarity of SC and PSC
+#### Compare the clustering quality and similarity of PSC and SC
 ```
 python SC_PSC_Tabular_Cmp.py \
         --layer1 32 \
@@ -70,7 +70,7 @@ python SC_PSC_Tabular_Cmp.py \
 
 ### Image Dataset, take MNIST dataset for example
 
-#### PSC Model Training
+#### PSC model training
 
 - Usage :
 ```
@@ -97,12 +97,12 @@ python PSC_Image_Train.py \
         --layer3 196
 ``` 
 
-#### To compare the similarity, compute the Spectral Clustering with all data
+#### SC model training (baseline)
 ```
 python SC_Image_Train.py --se 1
 ```
 
-#### Compare the clustering quality and similarity of SC and PSC
+#### Compare the clustering quality and similarity of PSC and SC
 ```
 python SC_PSC_Image_Cmp.py \
         --layer1 196 \
